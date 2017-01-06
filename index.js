@@ -18,10 +18,14 @@ function MultiSlideShow(objectArray) {
         var slideIndex = 0;
 
         return function(val) {
-            slideIndex += val;
-            if (slideIndex < 0) slideIndex = (slides.length - 1);
-            if (slideIndex == slides.length) slideIndex = 0;
-            this.setProto(slides[slideIndex]);
+            if(val !== undefined) {
+                slideIndex = val < 0 ?
+                    (val + 1) % slides.length + (slides.length - 1) :
+                    val % slides.length;
+                this.setProto(slides[slideIndex]);
+                return slideIndex;
+            }
+            else return slideIndex;
         }.bind(this);
 
     }).apply(this);
@@ -75,11 +79,11 @@ MultiSlideShow.prototype.bindEvent = function(val, element, event) {
 };
 
 MultiSlideShow.prototype.bindNextEvent = function(){
-    this.bindEvent.apply(this, [1].concat(Array.prototype.slice.call(arguments)));
+    this.bindEvent.apply(this, [this.setSlide() + 1].concat(Array.prototype.slice.call(arguments)));
 };
 
 MultiSlideShow.prototype.bindPrevEvent = function(){
-    this.bindEvent.apply(this, [-1].concat(Array.prototype.slice.call(arguments)));
+    this.bindEvent.apply(this, [this.setSlide() - 1].concat(Array.prototype.slice.call(arguments)));
 };
 };
 
