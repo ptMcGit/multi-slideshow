@@ -101,27 +101,32 @@ var MultiSlideShow;
 
     MultiSlideShow.prototype.bindEvent = function(val, element, event) {
 
-        if (parseInt(val) !== val)
-            throw new TypeError('Expecting integer for val, got ', val,'.');
-
         if (typeof element !== 'object')
             throw new TypeError('Expecting an object for element, got ', element,'.');
 
         if (!(isString(event)))
             throw new TypeError('Expecting a string for event, got ', event,'.');
 
-        element.addEventListener(
-            event,
-            function() { this.setSlide(val); }.bind(this),
-            false);
+        if(parseInt(val) === val)
+            element.addEventListener(
+                event,
+                function() { this.setSlide(val); }.bind(this),
+                false);
+        else if(val && Object.prototype.toString.call(val) === '[object Function]')
+            element.addEventListener(
+                event,
+                function(){ this.setSlide(val.apply(this)); }.bind(this),
+                false);
+        else
+            throw new TypeError('Expecting integer or function for val, got ', val,'.');
     };
 
     MultiSlideShow.prototype.bindNextEvent = function(){
-        this.bindEvent.apply(this, [this.setSlide() + 1].concat(Array.prototype.slice.call(arguments)));
+        this.bindEvent.apply(this, [function(){ return this.setSlide() + 1;}].concat(Array.prototype.slice.call(arguments)));
     };
 
     MultiSlideShow.prototype.bindPrevEvent = function(){
-        this.bindEvent.apply(this, [this.setSlide() - 1].concat(Array.prototype.slice.call(arguments)));
+        this.bindEvent.apply(this, [function(){ return this.setSlide() - 1;}].concat(Array.prototype.slice.call(arguments)));
     };
 })();
 
