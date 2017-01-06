@@ -1,8 +1,8 @@
-var MultiSlideShow;
+var MultiSlideshow;
 
 (function(){
     'use strict';
-    MultiSlideShow = function(objectArray) {
+    MultiSlideshow = function(objectArray) {
 
         if(!objectArray)
             throw new Error('Expect one argument.');
@@ -69,7 +69,7 @@ var MultiSlideShow;
 
     };
 
-    MultiSlideShow.prototype.updateElements = function(){
+    MultiSlideshow.prototype.updateElements = function(){
         if(this.elementBindings.length === 0) return;
         var f;
         for(f = 0; f < this.elementBindings.length; f++)
@@ -80,7 +80,7 @@ var MultiSlideShow;
         return (typeof thing === 'string' || thing instanceof String);
     };
 
-    MultiSlideShow.prototype.bindElement = function(elementArray, property, attribute) {
+    MultiSlideshow.prototype.bindElement = function(elementArray, property, attribute) {
         if(!(elementArray instanceof Array))
             throw new TypeError('Expecting an array for elementArray, got ', elementArray,'.');
 
@@ -99,7 +99,7 @@ var MultiSlideShow;
 
     };
 
-    MultiSlideShow.prototype.bindEvent = function(val, element, event) {
+    MultiSlideshow.prototype.bindEvent = function(val, element, event) {
 
         if (typeof element !== 'object')
             throw new TypeError('Expecting an object for element, got ', element,'.');
@@ -121,13 +121,13 @@ var MultiSlideShow;
             throw new TypeError('Expecting integer or function for val, got ', val,'.');
     };
 
-    MultiSlideShow.prototype.bindNextEvent = function(){
+    MultiSlideshow.prototype.bindNextEvent = function(){
         this.bindEvent.apply(this, [function(){ return this.setSlide() + 1;}].concat(Array.prototype.slice.call(arguments)));
     };
 
-    MultiSlideShow.prototype.bindPrevEvent = function(){
+    MultiSlideshow.prototype.bindPrevEvent = function(){
         this.bindEvent.apply(this, [function(){ return this.setSlide() - 1;}].concat(Array.prototype.slice.call(arguments)));
     };
 })();
 
-module.exports = MultiSlideShow;
+module.exports = MultiSlideshow;
