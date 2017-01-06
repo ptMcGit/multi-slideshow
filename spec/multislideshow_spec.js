@@ -129,6 +129,24 @@ describe("MultiSlideshow", function(){
                 expect(ms.currentSlide).toEqual(testSlides.splice(-1,1)[0]);
             });
 
+            it("throws an error when given a non-integer", function(){
+                expect(function(){
+                    ms.bindEvent(undefined)})
+                    .toThrowError(TypeError);
+            });
+
+            it("throws an error when given a non-object", function(){
+                expect(function(){
+                    ms.bindEvent(1,22)})
+                    .toThrowError(TypeError);
+            });
+
+            it("throws an error when given a non-string", function(){
+                expect(function(){
+                    ms.bindEvent(1,{a:1},1)})
+                    .toThrowError(TypeError);
+            });
+
         });
 
     });
