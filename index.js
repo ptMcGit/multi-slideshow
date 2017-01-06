@@ -76,11 +76,14 @@ var MultiSlideShow;
 
     MultiSlideShow.prototype.bindEvent = function(val, element, event) {
 
+        if (parseInt(val) !== val)
+            throw new TypeError('Expecting integer for val, got ', val,'.');
+
         if (typeof element !== 'object')
-            throw new TypeError('Expecting an object for element, got', element,'.');
+            throw new TypeError('Expecting an object for element, got ', element,'.');
 
         if (!(isString(event)))
-            throw new TypeError('Expecting a string for event, got', event,'.');
+            throw new TypeError('Expecting a string for event, got ', event,'.');
 
         element.addEventListener(
             event,
