@@ -69,7 +69,18 @@ describe("MultiSlideshow", function(){
 
         describe("#bindEvent", function(){
 
-            it("changes the current slide to a specific slide", function(){
+            it("invokes addEventListener with the event", function(){
+                spyOn(e,'addEventListener');
+                ms.bindEvent(2, e, 'click');
+                expect(e.addEventListener.calls.mostRecent().args[0]).toEqual('click');
+            });
+
+            it("modifies an 'event' method on the bound element", function(){
+                var e1 = e.click;
+                ms.bindEvent(2, e, 'click');
+                expect(e1).not.toEqual(e.click);
+            });
+
                 ms.setSlide(0);
                 ms.bindEvent(2, e, 'click');
                 e.click();
