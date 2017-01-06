@@ -30,7 +30,6 @@ describe("MultiSlideshow", function(){
 
     });
 
-
     describe("post-initialization", function(){
 
         var ms, e;
@@ -95,7 +94,7 @@ describe("MultiSlideshow", function(){
 
         describe("#setSlide", function(){
 
-            it("changes the current slide to index corresponding to the original object", function(){
+            it("changes the current slide by an index corresponding to the original object", function(){
                 ms.setSlide(0);
                 ms.setSlide(2);
                 expect(ms.currentSlide).toEqual(testSlides[2]);
@@ -109,21 +108,21 @@ describe("MultiSlideshow", function(){
         });
 
         describe("#bindEvent", function(){
-            it("an event changes the current slide to a specific slide", function(){
+            it("changes the current slide to a specific slide", function(){
                 ms.setSlide(0);
                 ms.bindEvent(2, e, 'click');
                 e.click();
                 expect(ms.currentSlide).toEqual(testSlides[2]);
             });
 
-            it("when applied through #bindNextEvent, it changes to the next 'slide'", function(){
+            it("when applied through #bindNextEvent, it changes current slide to the next 'slide'", function(){
                 ms.setSlide(0);
                 ms.bindNextEvent(e, 'click');
                 e.click();
                 expect(ms.currentSlide).toEqual(testSlides[1]);
             });
 
-            it("when applied through #bindPrevEvent, it changes to the previous 'slide'", function(){
+            it("when applied through #bindPrevEvent, it changes current slide to the previous 'slide'", function(){
                 ms.setSlide(0);
                 ms.bindPrevEvent(e, 'click');
                 e.click();
