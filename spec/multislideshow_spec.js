@@ -101,6 +101,11 @@ describe("MultiSlideshow", function(){
                 expect(ms.currentSlide).toEqual(testSlides[2]);
             });
 
+            it("returns the current slide index when invoked with no arguments.", function(){
+                ms.setSlide(0);
+                expect(ms.setSlide()).toEqual(0);
+            });
+
         });
 
         describe("#bindEvent", function(){
