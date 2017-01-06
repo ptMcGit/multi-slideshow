@@ -98,6 +98,25 @@ describe("MultiSlideshow", function(){
 
         });
 
+        describe("#shuffleSlides", function(){
+
+            it("will lead to shuffled slides most of the time.", function(){
+                var shuffle = function(){
+                    var s1 = ms.currentSlide;
+                    ms.shuffleSlides();
+                    ms.setSlide(0);
+                    return s1 === ms.currentSlide;
+                };
+
+                expect(
+                    shuffle() ||
+                        shuffle() ||
+                        shuffle())
+                    .toBeTruthy();
+            });
+
+        });
+
     });
 
 });

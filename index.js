@@ -10,15 +10,16 @@ var MultiSlideShow;
         if(!(objectArray instanceof Array))
             throw new TypeError('Expected an array, got ', objectArray, '.');
 
+        var slides = objectArray;
+        var slideIndex = 0;
+        this.currentSlide = slides[slideIndex];
+
         this.elementBindings = [];
 
-        this.currentSlide = objectArray[0];
-
         this.setSlide = (function() {
-            var slides = objectArray;
-            var slideIndex = 0;
 
             return function(val) {
+
                 if(val !== undefined) {
                     slideIndex = val < 0 ?
                         (val + 1) % slides.length + (slides.length - 1) :
@@ -31,6 +32,30 @@ var MultiSlideShow;
             }.bind(this);
 
         }).apply(this);
+
+        this.shuffleSlides = (function(){
+            // random number from 0 to max; excluding max
+            // Thanks, Mozilla!
+
+            var randnum = function(maxval) {
+                var min = Math.ceil(0);
+                var max = Math.floor(maxval);
+                return Math.floor(Math.random() * (max - min)) + min;
+            };
+
+            return function(){
+                var i;
+                var randomSlides = [];
+                var randomI;
+
+                for(i = 0; i < slides.length + randomSlides.length; i++) {
+                    randomI = randnum(slides.length);
+                    randomSlides.push(slides[randomI]);
+                    slides.splice(randomI,1);
+                }
+                slides = randomSlides;
+            };
+        })();
 
         // this.updateElements = (function(){
         //     var that = this;
