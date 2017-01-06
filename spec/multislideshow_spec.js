@@ -54,7 +54,7 @@ describe("MultiSlideshow", function(){
 
         describe("#setSlide", function(){
 
-            it("changes the current slide by an index corresponding to the original object", function(){
+            it("changes the current slide with an index corresponding to the original object", function(){
                 ms.setSlide(0);
                 ms.setSlide(2);
                 expect(ms.currentSlide).toEqual(testSlides[2]);
@@ -75,12 +75,7 @@ describe("MultiSlideshow", function(){
                 expect(e.addEventListener.calls.mostRecent().args[0]).toEqual('click');
             });
 
-            it("modifies an 'event' method on the bound element", function(){
-                var e1 = e.click;
-                ms.bindEvent(2, e, 'click');
-                expect(e1).not.toEqual(e.click);
-            });
-
+            it("makes the current slide changeable to a specific slide", function(){
                 ms.setSlide(0);
                 ms.bindEvent(2, e, 'click');
                 e.click();
