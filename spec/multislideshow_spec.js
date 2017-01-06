@@ -93,7 +93,7 @@ describe("MultiSlideshow", function(){
                 ms.setSlide(0);
                 ms.bindPrevEvent(e, 'click');
                 e.click();
-                expect(ms.currentSlide).toEqual(testSlides.splice(-1,1)[0]);
+                expect(ms.currentSlide).toEqual(testSlides.slice(-1)[0]);
             });
 
         });
