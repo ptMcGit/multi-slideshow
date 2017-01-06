@@ -16,20 +16,6 @@ describe("MultiSlideshow", function(){
         {name: 'name3', desc: 'desc3', longDesc: 'long desc3'},
     ];
 
-    describe("initialization", function(){
-
-        it("raises an exception unless initialization parameter is an array", function(){
-            expect(function(){ new MultiSlideshow('string'); })
-                .toThrowError(TypeError);
-        });
-
-        it("raises an exception with no parameters", function(){
-            expect(function(){ new MultiSlideshow(); })
-                .toThrowError();
-        });
-
-    });
-
     describe("post-initialization", function(){
 
         var ms, e;
@@ -40,32 +26,6 @@ describe("MultiSlideshow", function(){
         });
 
         describe("#bindElement", function(){
-
-            it("will throw an error if first param is not an array", function(){
-                expect(function(){
-                    ms.bindElement(
-                        e,
-                        'mockDesc',
-                        'desc');})
-                    .toThrowError(TypeError);
-            });
-
-            it("will throw an error if second param is not a string", function(){
-                expect(function(){
-                    ms.bindElement(
-                        e,
-                        undefined,
-                        'desc');})
-                    .toThrowError(TypeError);
-            });
-
-            it("will throw an error if third param is not given", function(){
-                expect(function(){
-                    ms.bindElement(
-                        e,
-                        'mockDesc');})
-                    .toThrowError(TypeError);
-            });
 
             it("is used to make a property of a slide assignable to a property of an element", function(){
                 ms.bindElement(
@@ -108,6 +68,7 @@ describe("MultiSlideshow", function(){
         });
 
         describe("#bindEvent", function(){
+
             it("changes the current slide to a specific slide", function(){
                 ms.setSlide(0);
                 ms.bindEvent(2, e, 'click');
@@ -127,24 +88,6 @@ describe("MultiSlideshow", function(){
                 ms.bindPrevEvent(e, 'click');
                 e.click();
                 expect(ms.currentSlide).toEqual(testSlides.splice(-1,1)[0]);
-            });
-
-            it("throws an error when given a non-integer", function(){
-                expect(function(){
-                    ms.bindEvent(undefined)})
-                    .toThrowError(TypeError);
-            });
-
-            it("throws an error when given a non-object", function(){
-                expect(function(){
-                    ms.bindEvent(1,22)})
-                    .toThrowError(TypeError);
-            });
-
-            it("throws an error when given a non-string", function(){
-                expect(function(){
-                    ms.bindEvent(1,{a:1},1)})
-                    .toThrowError(TypeError);
             });
 
         });
