@@ -8,9 +8,10 @@ function MultiSlideShow(objectArray) {
 
     this.elementBindings = [];
 
-    this.setProto = function(p) {
-        Object.setPrototypeOf(this, p);
-        this.updateElements();
+    this.currentSlide = objectArray[0];
+
+    var isString = function(thing){
+        return (typeof thing === 'string' || thing instanceof String);
     };
 
     this.setSlide = (function() {
@@ -22,7 +23,8 @@ function MultiSlideShow(objectArray) {
                 slideIndex = val < 0 ?
                     (val + 1) % slides.length + (slides.length - 1) :
                     val % slides.length;
-                this.setProto(slides[slideIndex]);
+                this.currentSlide = slides[slideIndex];
+                this.updateElements();
                 return slideIndex;
             }
             else return slideIndex;
@@ -40,13 +42,8 @@ function MultiSlideShow(objectArray) {
         };
     }.bind(this))();
 
-}
 
-var isString = function(thing){
-    return (typeof thing === 'string' || thing instanceof String);
-};
-
-MultiSlideShow.prototype.bindElement = function(elementArray, property, attribute) {
+    this.bindElement = function(elementArray, property, attribute) {
     if(!(elementArray instanceof Array))
         throw new TypeError('Expecting an array for elementArray, got ', elementArray,'.');
 
@@ -56,15 +53,16 @@ MultiSlideShow.prototype.bindElement = function(elementArray, property, attribut
     if (!(isString(attribute)))
         throw new TypeError('Expecting a string for attribute, got', attribute,'.');
 
-    this.elementBindings[this.elementBindings.length] = function(){
-        var i;
-        for(i = 0; i < elementArray.length; i++) {
-            elementArray[i][property] = this[attribute];
-        }
-    };
-};
+        this.elementBindings[this.elementBindings.length] = function(){
+            var i;
+            for(i = 0; i < elementArray.length; i++) {
+                elementArray[i][property] = this.currentSlide[attribute];
+            }
+        };
 
-MultiSlideShow.prototype.bindEvent = function(val, element, event) {
+    };
+
+    this.bindEvent = function(val, element, event) {
 
         if (typeof element !== 'object')
             throw new TypeError('Expecting an object for element, got', element,'.');
@@ -72,46 +70,20 @@ MultiSlideShow.prototype.bindEvent = function(val, element, event) {
         if (!(isString(event)))
             throw new TypeError('Expecting a string for event, got', event,'.');
 
-    element.addEventListener(
-        event,
-        function() { this.setSlide(val); }.bind(this),
-        false);
-};
+        element.addEventListener(
+            event,
+            function() { this.setSlide(val); }.bind(this),
+            false);
+    };
 
-MultiSlideShow.prototype.bindNextEvent = function(){
-    this.bindEvent.apply(this, [this.setSlide() + 1].concat(Array.prototype.slice.call(arguments)));
-};
+    this.bindNextEvent = function(){
+        this.bindEvent.apply(this, [this.setSlide() + 1].concat(Array.prototype.slice.call(arguments)));
+    };
 
-MultiSlideShow.prototype.bindPrevEvent = function(){
-    this.bindEvent.apply(this, [this.setSlide() - 1].concat(Array.prototype.slice.call(arguments)));
-};
-};
+    this.bindPrevEvent = function(){
+        this.bindEvent.apply(this, [this.setSlide() - 1].concat(Array.prototype.slice.call(arguments)));
+    };
 
-
-// MultiSlideShow.prototype.bindNextEvent = function(element, event) {
-//     if (!(typeof element === 'object'))
-//         throw new TypeError('Expecting an object for element, got', element,'.');
-
-//     if (!(isString(event)))
-//         throw new TypeError('Expecting a string for event, got', event,'.');
-
-//     element.addEventListener(
-//         event,
-//         function() { this.setSlide(1); }.bind(this),
-//         false);
-// };
-
-// MultiSlideShow.prototype.bindPrevEvent = function(element, event){
-//     if (!(typeof element === 'object'))
-//         throw new TypeError('Expecting an object for element, got', element,'.');
-
-//     if (!(isString(event)))
-//         throw new TypeError('Expecting a string for event, got', event,'.');
-
-//     element.addEventListener(
-//         event,
-//         function() { this.setSlide(-1); }.bind(this),
-//         false);
-// };
+}
 
 module.exports = MultiSlideShow;
