@@ -1,8 +1,8 @@
-# MultiSlideShow #
+# MultiSlideshow #
 
 ## What is it? ##
 
-`MultiSlideShow` is used to create slideshows.
+Use `MultiSlideshow` is to create slideshows.
 
 A slideshow in this case is the following:
 
@@ -23,13 +23,13 @@ var mySlides = [
 ];
 ```
 
-Instantiate `MultiSlideShow`:
+Instantiate `MultiSlideshow`:
 
 ``` JavaScript
-var mySlideShow = MultiSlideShow(mySlides);
+var mySlideShow = MultiSlideshow(mySlides);
 ```
 
-'Bind' object members to html elements using `bindElement()`:
+'Bind' object members to HTML elements using `bindElement()`:
 
 ``` JavaScript
 // This causes the innerHTML of the element to be associated with the title attribute of mySlides.
@@ -53,12 +53,24 @@ mySlideShow.bindElement(
 // And, so on...
 ```
 
-A slideshow needs a way to be moved forwards and backwards.
+A slideshow needs a way to change slides.
 
-This can be done by setting the slide with `.setSlide()`.
-`.setSlide()` return the current slide index when invoked with no arguments.
+You can set the specific slide with `.setSlide()`.
+`.setSlide()` returns the current slide index when invoked with no arguments.
 
-`MultiSlideShow` also has the ability to create event listeners for events that trigger the slideshow forwards and backwards.
+You can also use `MultiSlideshow` to create event listeners through the use of `.bindEvent()`.
+
+In this case the button causes the slidehow to go to the first slide each time:
+
+```JavaScript
+mySlideShow.bindEvent(
+  0,
+  document.getElementById('photo-slideshow-reset-button'),
+  'click'
+);
+```
+
+`MultiSlideshow` also has the ability to create event listeners for events that trigger the slideshow forwards and backwards.
 These events are bound to elements by using `.bindNextEvent()` and `.bindPrevEvent()` methods:
 
 ``` JavaScript
@@ -73,13 +85,10 @@ mySlideShow.bindPrevEvent(
 );
 ```
 
-Additionally, an individual slide can be associatedted with an event directly through the use of `.bindEvent()`.
-In this case the button causes the slidehow to go to the first slide each time:
+`.shuffleSlides()` causes the slides to be shuffled.
 
-```JavaScript
-mySlideShow.bindEvent(
-  0,
-  document.getElementById('photo-slideshow-reset-button'),
-  'click'
-);
+Lastly, the slideshow must be initialized to a starting slide using `.setSlide()`
+
+``` JavaScript
+mySlideShow.setSlide(0);
 ```
